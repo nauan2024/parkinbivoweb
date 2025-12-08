@@ -1,0 +1,52 @@
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-gray-light);
+}
+
+.form-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.form-card h2 {
+    color: var(--color-blue);
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.btn-confirm {
+    flex: 1;
+    background-color: var(--color-green);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-confirm:hover { background-color: #388E3C; }
+
+.btn-cancel {
+    flex: 1;
+    background-color: transparent;
+    border: 1px solid var(--color-gray-medium);
+    color: var(--color-text);
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.btn-cancel:hover { background-color: #f0f0f0; }

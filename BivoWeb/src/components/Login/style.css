@@ -1,53 +1,86 @@
-@import url("../../index.css");
+@import url(../../index.css);
 
+/* Container que ocupa a tela toda */
 .login-container {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-blue);
+    /* Em vez de height: 100vh (que corta conteúdo em telas pequenas),
+       usamos min-height. Assim ele cresce se precisar de scroll.
+    */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;      /* Centraliza verticalmente */
+    justify-content: center;  /* Centraliza horizontalmente */
+    background-color: var(--color-blue); /* #003554 */
+    padding: 20px; /* Garante que não encoste nas bordas no celular */
 }
 
+/* O Cartão Branco */
 .login-card {
-  background: var(--color-white);
-  padding: 40px;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    background-color: var(--color-white);
+    /* O tamanho do card é definido pelo conteúdo + padding.
+       Isso evita que ele fique "esticado" ou "apertado" demais.
+    */
+    padding: 40px; 
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    
+    /* TRUQUE DE RESPONSIVIDADE: */
+    width: 100%;        /* Tenta ocupar tudo... */
+    max-width: 400px;   /* ...mas para de crescer ao chegar em 400px */
+    /* Organização interna */
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Espaço automático entre o Header e o Form */
 }
 
+/* Cabeçalho (Logo e Títulos) */
 .login-header {
-  text-align: center;
-  margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px; /* Espaço entre logo, título e subtítulo */
 }
 
 .login-header .logo {
-  height: 60px;
-  margin-bottom: 15px;
+    /* Imagens precisam de algum limite para não explodir */
+    max-width: 120px; 
+    object-fit: contain;
 }
 
 .login-header h2 {
-  color: var(--color-blue);
-  margin-bottom: 8px;
+    color: var(--color-blue);
+    font-size: 1.5rem;
 }
 
 .login-header p {
-  color: var(--color-gray-medium);
-  font-size: 14px;
+    color: var(--color-gray-medium);
+    font-size: 0.9rem;
 }
 
+/* Formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    /* Define o espaço entre os inputs e o botão sem usar margin-bottom */
+    gap: 16px; 
+}
+
+/* Botão de Entrar */
 .btn-login {
-  width: 100%;
-  padding: 14px;
-  background-color: var(--color-green);
-  color: white;
-  font-weight: bold;
-  border-radius: 8px;
-  font-size: 16px;
-  margin-top: 10px;
+    /* Não defina height! Use padding para dar "corpo" ao botão */
+    padding: 14px; 
+    
+    background-color: var(--color-green); /* #4CAF50 */
+    color: var(--color-white);
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    
+    /* Para garantir que o botão ocupe a largura disponível do form */
+    align-self: stretch; 
 }
 
 .btn-login:hover {
-  background-color: #3d8b40; /* Um verde um pouco mais escuro */
+    filter: brightness(0.9); /* Escurece levemente */
 }

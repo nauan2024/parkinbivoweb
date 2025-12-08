@@ -1,15 +1,21 @@
-import { useNavigate } from "react-dom";
+// Importe o hook de navegação
+import { useNavigate } from 'react-router-dom'; 
+
 import { InputText } from "../../components/inputtextcomponent";
-import logo from "../../assets/imgs/logotipo-car.svg"; // Verifique se o caminho bate com sua pasta
+import logo from "../../assets/imgs/logotipo-car.svg"; 
 import "./style.css";
 
 export const Login = () => {
+  // 1. Crie a constante de navegação
   const navigate = useNavigate();
 
+  // 2. Defina a função que o formulário chama
   const handleLogin = (e) => {
-    e.preventDefault();
-    // Aqui viria a lógica de autenticação
-    navigate('/home');
+    e.preventDefault(); // Evita que a página recarregue
+    console.log("Fazendo login...");
+    
+    // Aqui você navegaria para a Home
+    navigate('/home'); 
   };
 
   return (
@@ -21,6 +27,7 @@ export const Login = () => {
           <p>Faça login para gerenciar o estacionamento</p>
         </div>
 
+        {/* Agora a função handleLogin existe! */}
         <form onSubmit={handleLogin}>
           <InputText label="Usuário" placeholder="Digite seu usuário" />
           <InputText label="Senha" placeholder="Digite sua senha" type="password" />

@@ -1,0 +1,57 @@
+/* Reutiliza classes do estilo anterior se quiser, ou adicione estas: */
+
+.search-box {
+    display: flex;
+    align-items: flex-end; /* Alinha o botão com o input */
+    gap: 10px;
+}
+
+.btn-search {
+    background-color: var(--color-blue);
+    color: white;
+    height: 46px; /* Mesma altura aproximada do input */
+    padding: 0 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 16px; /* Alinha com a margin do input wrapper */
+}
+
+.result-card {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #E3F2FD; /* Azul bem clarinho */
+    border: 1px solid #90CAF9;
+    border-radius: 8px;
+}
+
+.result-card h3 {
+    color: var(--color-blue);
+    margin-bottom: 10px;
+}
+
+.result-card p {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: var(--color-text);
+}
+
+.btn-finish {
+    width: 100%;
+    margin-top: 15px;
+    background-color: #D32F2F; /* Vermelho para Saída */
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-finish:hover { background-color: #B71C1C; }
+
+.btn-back {
+    margin-top: 20px;
+    background: none;
+    text-decoration: underline;
+    color: var(--color-gray-medium);
+    width: 100%;
+}
