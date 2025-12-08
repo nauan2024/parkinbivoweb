@@ -1,55 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/imgs/logotipo-car.svg"; // Use o seu logo aqui
+import { api } from "../../services/api"; 
+import logo from "../../assets/imgs/logotipo-car.svg"; 
 import "./style.css";
 
 export const Home = () => {
   const navigate = useNavigate();
+  const [veiculos, setVeiculos] = useState([]);
 
-  // Dados fictícios para simular a API
-  const [veiculos, setVeiculos] = useState([
-    { id: 1, placa: "BRA-2E19", modelo: "Fiat Mobi", entrada: "08:30" },
-    { id: 2, placa: "RJX-9988", modelo: "Honda Civic", entrada: "09:15" },
-    { id: 3, placa: "GOL-1234", modelo: "VW Gol", entrada: "10:00" },
-  ]);
+  // Carrega os dados assim que a tela abre
+  useEffect(() => {
+    carregarDados();
+  }, []);
 
-  // Função para simular o Logout
+  const carregarDados = async () => {
+    const dados = await api.listarTudo();
+    setVeiculos(dados);
+  };
+
+  const handleNovaEntrada = () => {
+    navigate("/entrada"); 
+  };
+
   const handleLogout = () => {
     navigate("/");
   };
 
-  // Função para simular a Saída (Remover card)
-  const handleSaida = (id) => {
-    const novaLista = veiculos.filter((carro) => carro.id !== id);
-    setVeiculos(novaLista);
-  };
+  // --- FUNÇÃO DE SAÍDA CORRIGIDA (id -> id_carro) ---
+  const handleSaidaRapida = async (idParaDeletar) => {
+    // 1. Pergunta se quer mesmo excluir
+    if (confirm("Confirmar a saída e remover este veículo?")) {
+      
+      // 2. ATUALIZAÇÃO VISUAL: Remove o card da tela IMEDIATAMENTE
+      // CORREÇÃO: Usamos 'id_carro' para filtrar, pois 'id' não existe
+      setVeiculos(listaAtual => 
+        listaAtual.filter(carro => carro.id_carro !== idParaDeletar)
+      );
 
-  // Função para simular Entrada (Adicionar card aleatório)
-  const handleNovaEntrada = () => {
-    const novoCarro = {
-      id: Math.random(),
-      placa: "NEW-" + Math.floor(Math.random() * 9999),
-      modelo: "Veículo Teste",
-      entrada: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    };
-    setVeiculos([...veiculos, novoCarro]);
+      try {
+        // 3. ATUALIZAÇÃO DO BANCO: Manda apagar na API
+        await api.registrarSaida(idParaDeletar);
+      } catch (error) {
+        alert("Erro de conexão. O carro pode reaparecer ao recarregar.");
+        // Se der erro, recarrega a lista original
+        carregarDados(); 
+      }
+    }
   };
 
   return (
     <div className="home-layout">
-      {/* --- MENU LATERAL (SIDEBAR) --- */}
+      {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-header">
           <img src={logo} alt="Bivô Logo" />
           <h2>Bivô Web</h2>
         </div>
-
         <nav className="sidebar-nav">
           <button className="nav-item active">🚗 Pátio Atual</button>
           <button className="nav-item">📄 Relatórios</button>
           <button className="nav-item">⚙️ Configurações</button>
         </nav>
-
         <div className="sidebar-footer">
           <button onClick={handleLogout} className="btn-logout">
             Sair do Sistema
@@ -57,28 +68,27 @@ export const Home = () => {
         </div>
       </aside>
 
-      {/* --- CONTEÚDO PRINCIPAL --- */}
+      {/* Conteúdo Principal */}
       <main className="content">
         <header className="top-bar">
           <div>
             <h1>Visão Geral</h1>
             <p className="subtitle">Gerencie os veículos estacionados</p>
           </div>
-          
           <button onClick={handleNovaEntrada} className="btn-add">
             + Registrar Entrada
           </button>
         </header>
 
-        {/* --- GRID DE CARDS --- */}
         <section className="cards-grid">
           {veiculos.length === 0 ? (
             <div className="empty-state">
-              <p>O pátio está vazio no momento.</p>
+              <p>O pátio está vazio.</p>
             </div>
           ) : (
             veiculos.map((carro) => (
-              <div key={carro.id} className="car-card">
+              // CORREÇÃO: A key agora usa o id_carro
+              <div key={carro.id_carro} className="car-card">
                 <div className="card-header">
                   <span className="placa">{carro.placa}</span>
                   <span className="badge-status">Estacionado</span>
@@ -87,17 +97,18 @@ export const Home = () => {
                 <div className="card-body">
                   <div className="info-row">
                     <span>Modelo:</span>
-                    <strong>{carro.modelo}</strong>
+                    <strong>{carro.modelo || "-"}</strong>
                   </div>
                   <div className="info-row">
                     <span>Entrada:</span>
-                    <strong>{carro.entrada}</strong>
+                    <strong>{carro.horaEntrada || "Recente"}</strong>
                   </div>
                 </div>
 
                 <div className="card-footer">
+                  {/* CORREÇÃO: Passamos o id_carro para a função de deletar */}
                   <button 
-                    onClick={() => handleSaida(carro.id)} 
+                    onClick={() => handleSaidaRapida(carro.id_carro)} 
                     className="btn-action"
                   >
                     Registrar Saída
