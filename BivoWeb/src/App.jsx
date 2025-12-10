@@ -3,7 +3,6 @@ import { Login } from "./components/Login";
 import { Home } from "./components/Home";
 import { Entrada } from "./components/Entrada"; 
 import { Saida } from "./components/Saida";     
-
 function App() {
   return (
     <BrowserRouter>

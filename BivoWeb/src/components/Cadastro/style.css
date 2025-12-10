@@ -1,0 +1,59 @@
+.cadastro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+h2 { margin-bottom: 20px; color: #333; }
+
+form { display: flex; flex-direction: column; gap: 12px; }
+
+input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+input:focus { outline: none; border-color: #007bff; }
+
+button {
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s;
+}
+button:hover { background-color: #0056b3; }
+button:disabled { background-color: #ccc; cursor: not-allowed; }
+
+.btn-danger { background-color: #dc3545; }
+.btn-danger:hover { background-color: #a71d2a; }
+
+.toggle-link { margin-top: 15px; font-size: 14px; color: #666; }
+.toggle-link span { color: #007bff; cursor: pointer; font-weight: bold; }
+
+.mensagem { margin-top: 15px; padding: 10px; border-radius: 5px; font-weight: bold; }
+.sucesso { color: #155724; background-color: #d4edda; }
+.erro { color: #721c24; background-color: #f8d7da; }
+
+/* Animação suave ao trocar de tela */
+.fade-in { animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
