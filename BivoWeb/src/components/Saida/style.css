@@ -1,25 +1,24 @@
-/* Reutiliza classes do estilo anterior se quiser, ou adicione estas: */
 
 .search-box {
     display: flex;
-    align-items: flex-end; /* Alinha o botão com o input */
+    align-items: flex-end; 
     gap: 10px;
 }
 
 .btn-search {
     background-color: var(--color-blue);
     color: white;
-    height: 46px; /* Mesma altura aproximada do input */
+    height: 46px; 
     padding: 0 20px;
     border-radius: 8px;
     font-weight: bold;
-    margin-bottom: 16px; /* Alinha com a margin do input wrapper */
+    margin-bottom: 16px; 
 }
 
 .result-card {
     margin-top: 20px;
     padding: 20px;
-    background-color: #E3F2FD; /* Azul bem clarinho */
+    background-color: #E3F2FD; 
     border: 1px solid #90CAF9;
     border-radius: 8px;
 }
@@ -38,7 +37,7 @@
 .btn-finish {
     width: 100%;
     margin-top: 15px;
-    background-color: #D32F2F; /* Vermelho para Saída */
+    background-color: #D32F2F; 
     color: white;
     padding: 12px;
     border-radius: 8px;

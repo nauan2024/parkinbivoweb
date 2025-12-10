@@ -1,22 +1,19 @@
 
 @import url(../../index.css);
 
-/* Layout Principal: Flexbox para colocar Sidebar ao lado do Content */
 .home-layout {
   display: flex;
-  min-height: 100vh; /* Garante altura total */
+  min-height: 100vh; 
   background-color: var(--color-gray-light);
 }
 
-/* --- SIDEBAR --- */
 .sidebar {
-  width: 260px; /* Largura fixa para o menu */
+  width: 260px; 
   background-color: var(--color-blue);
   color: var(--color-white);
   display: flex;
   flex-direction: column;
   padding: 24px;
-  /* Em telas muito pequenas, o sidebar poderia sumir ou virar menu hambúrguer */
 }
 
 .sidebar-header {
@@ -34,7 +31,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  flex: 1; /* Empurra o footer para baixo */
+  flex: 1; 
 }
 
 .nav-item {
@@ -54,26 +51,24 @@
 
 .btn-logout {
   background-color: rgba(0, 0, 0, 0.2);
-  color: #ff6b6b; /* Um vermelho suave */
+  color: #ff6b6b; 
   width: 100%;
   padding: 12px;
   border-radius: 8px;
 }
 
-/* --- CONTEÚDO (MAIN) --- */
 .content {
-  flex: 1; /* Ocupa todo o espaço que sobra */
+  flex: 1; 
   padding: 32px;
-  overflow-y: auto; /* Permite scroll se tiver muitos carros */
+  overflow-y: auto; 
 }
 
-/* Top Bar */
 .top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
-  flex-wrap: wrap; /* Se a tela for pequena, o botão desce */
+  flex-wrap: wrap; 
   gap: 20px;
 }
 
@@ -97,18 +92,15 @@
 }
 
 .btn-add:hover {
-  transform: translateY(-2px); /* Efeitinho de subir */
+  transform: translateY(-2px); 
 }
 
-/* --- GRID SYSTEM --- */
 .cards-grid {
   display: grid;
-  /* MÁGICA: Cria colunas de no mínimo 300px que preenchem o espaço */
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 24px;
 }
 
-/* Cards */
 .car-card {
   background: white;
   border-radius: 12px;
@@ -119,13 +111,12 @@
   flex-direction: column;
   gap: 16px;
   
-  /* Detalhe visual: Borda verde na esquerda igual ao App */
   border-left: 5px solid var(--color-green);
   transition: transform 0.2s;
 }
 
 .car-card:hover {
-  transform: translateY(-5px); /* Card "flutua" ao passar o mouse */
+  transform: translateY(-5px); 
   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
@@ -178,7 +169,7 @@
 }
 
 .empty-state {
-  grid-column: 1 / -1; /* Ocupa todas as colunas */
+  grid-column: 1 / -1; 
   text-align: center;
   color: var(--color-gray-medium);
   margin-top: 50px;

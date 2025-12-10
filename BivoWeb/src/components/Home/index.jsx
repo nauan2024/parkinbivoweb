@@ -8,7 +8,6 @@ export const Home = () => {
   const navigate = useNavigate();
   const [veiculos, setVeiculos] = useState([]);
 
-  // Carrega os dados assim que a tela abre
   useEffect(() => {
     carregarDados();
   }, []);
@@ -26,23 +25,17 @@ export const Home = () => {
     navigate("/");
   };
 
-  // --- FUNÇÃO DE SAÍDA CORRIGIDA (id -> id_carro) ---
   const handleSaidaRapida = async (idParaDeletar) => {
-    // 1. Pergunta se quer mesmo excluir
     if (confirm("Confirmar a saída e remover este veículo?")) {
       
-      // 2. ATUALIZAÇÃO VISUAL: Remove o card da tela IMEDIATAMENTE
-      // CORREÇÃO: Usamos 'id_carro' para filtrar, pois 'id' não existe
       setVeiculos(listaAtual => 
         listaAtual.filter(carro => carro.id_carro !== idParaDeletar)
       );
 
       try {
-        // 3. ATUALIZAÇÃO DO BANCO: Manda apagar na API
         await api.registrarSaida(idParaDeletar);
       } catch (error) {
         alert("Erro de conexão. O carro pode reaparecer ao recarregar.");
-        // Se der erro, recarrega a lista original
         carregarDados(); 
       }
     }
@@ -50,7 +43,6 @@ export const Home = () => {
 
   return (
     <div className="home-layout">
-      {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-header">
           <img src={logo} alt="Bivô Logo" />
@@ -68,7 +60,6 @@ export const Home = () => {
         </div>
       </aside>
 
-      {/* Conteúdo Principal */}
       <main className="content">
         <header className="top-bar">
           <div>
@@ -87,7 +78,6 @@ export const Home = () => {
             </div>
           ) : (
             veiculos.map((carro) => (
-              // CORREÇÃO: A key agora usa o id_carro
               <div key={carro.id_carro} className="car-card">
                 <div className="card-header">
                   <span className="placa">{carro.placa}</span>
@@ -106,7 +96,6 @@ export const Home = () => {
                 </div>
 
                 <div className="card-footer">
-                  {/* CORREÇÃO: Passamos o id_carro para a função de deletar */}
                   <button 
                     onClick={() => handleSaidaRapida(carro.id_carro)} 
                     className="btn-action"

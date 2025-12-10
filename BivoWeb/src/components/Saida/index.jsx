@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputText } from "../../components/inputtextcomponent";
-import { api } from "../../services/api"; // 1. Importando a API central
+import { api } from "../../services/api"; 
 import "./style.css";
 
 export const Saida = () => {
@@ -10,14 +10,11 @@ export const Saida = () => {
   const [carroEncontrado, setCarroEncontrado] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // 1. Função para achar o carro pela placa
   const buscarCarro = async (e) => {
     e.preventDefault();
     setLoading(true);
     
     try {
-      // Substituído: Fetch manual -> Chamada da API
-      // A função buscarPorPlaca já retorna o objeto do carro ou null
       const carro = await api.buscarPorPlaca(busca.toUpperCase());
 
       if (carro) {
@@ -33,13 +30,10 @@ export const Saida = () => {
     }
   };
 
-  // 2. Função para efetivar a saída
   const confirmarSaida = async () => {
     if (!carroEncontrado) return;
 
     try {
-      // Substituído: Fetch PUT manual -> Chamada da API
-      // O arquivo api.js cuida se vai deletar ou atualizar a data
       await api.registrarSaida(carroEncontrado.id);
 
       alert("Saída registrada com sucesso!");
@@ -54,7 +48,6 @@ export const Saida = () => {
       <div className="form-card">
         <h2>Registrar Saída 🏁</h2>
         
-        {/* Formulário de Busca */}
         <form onSubmit={buscarCarro} className="search-box">
           <InputText 
             label="Buscar Placa" 
@@ -67,7 +60,6 @@ export const Saida = () => {
           </button>
         </form>
 
-        {/* Se achou o carro, mostra os detalhes */}
         {carroEncontrado && (
           <div className="result-card">
             <h3>Veículo Encontrado:</h3>

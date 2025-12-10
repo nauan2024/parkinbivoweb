@@ -1,7 +1,6 @@
 const API_URL = 'https://68ec4378eff9ad3b14019f4d.mockapi.io/carros';
 
 export const api = {
-    // 1. LISTAR (GET)
     listarTudo: async () => {
         try {
             const response = await fetch(API_URL);
@@ -12,7 +11,6 @@ export const api = {
         }
     },
 
-    // 2. BUSCAR POR PLACA (GET com filtro)
     buscarPorPlaca: async (placa) => {
         try {
             const response = await fetch(`${API_URL}?placa=${placa}`);
@@ -24,7 +22,6 @@ export const api = {
         }
     },
 
-    // 3. REGISTRAR ENTRADA (POST)
     registrarEntrada: async (dadosCarro) => {
         await fetch(API_URL, {
             method: 'POST',
@@ -33,7 +30,6 @@ export const api = {
         });
     },
 
-    // 4. REGISTRAR SAÍDA (DELETE) - Isso apaga do Banco de Dados
     registrarSaida: async (id) => {
         await fetch(`${API_URL}/${id}`, {
             method: 'DELETE' 

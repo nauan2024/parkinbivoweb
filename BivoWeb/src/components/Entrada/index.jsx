@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { InputText } from "../../components/inputtextcomponent"; // Ajustei para InputText (PascalCase)
-import { api } from "../../services/api"; // 1. Importação da API
+import { InputText } from "../../components/inputtextcomponent"; 
+import { api } from "../../services/api"; 
 import "./style.css";
 
 export const Entrada = () => {

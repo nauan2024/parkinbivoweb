@@ -1,48 +1,37 @@
 @import url(../../index.css);
 
-/* Container que ocupa a tela toda */
 .login-container {
-    /* Em vez de height: 100vh (que corta conteúdo em telas pequenas),
-       usamos min-height. Assim ele cresce se precisar de scroll.
-    */
     min-height: 100vh;
     display: flex;
-    align-items: center;      /* Centraliza verticalmente */
-    justify-content: center;  /* Centraliza horizontalmente */
-    background-color: var(--color-blue); /* #003554 */
-    padding: 20px; /* Garante que não encoste nas bordas no celular */
+    align-items: center;      
+    justify-content: center;  
+    background-color: var(--color-blue); 
+    padding: 20px; 
 }
 
-/* O Cartão Branco */
 .login-card {
     background-color: var(--color-white);
-    /* O tamanho do card é definido pelo conteúdo + padding.
-       Isso evita que ele fique "esticado" ou "apertado" demais.
-    */
+    
     padding: 40px; 
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     
-    /* TRUQUE DE RESPONSIVIDADE: */
-    width: 100%;        /* Tenta ocupar tudo... */
-    max-width: 400px;   /* ...mas para de crescer ao chegar em 400px */
-    /* Organização interna */
+    width: 100%;        
+    max-width: 400px;  
     display: flex;
     flex-direction: column;
-    gap: 24px; /* Espaço automático entre o Header e o Form */
+    gap: 24px; 
 }
 
-/* Cabeçalho (Logo e Títulos) */
 .login-header {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 12px; /* Espaço entre logo, título e subtítulo */
+    gap: 12px; 
 }
 
 .login-header .logo {
-    /* Imagens precisam de algum limite para não explodir */
     max-width: 120px; 
     object-fit: contain;
 }
@@ -57,30 +46,25 @@
     font-size: 0.9rem;
 }
 
-/* Formulário */
 form {
     display: flex;
     flex-direction: column;
-    /* Define o espaço entre os inputs e o botão sem usar margin-bottom */
     gap: 16px; 
 }
 
-/* Botão de Entrar */
 .btn-login {
-    /* Não defina height! Use padding para dar "corpo" ao botão */
     padding: 14px; 
     
-    background-color: var(--color-green); /* #4CAF50 */
+    background-color: var(--color-green);
     color: var(--color-white);
     font-weight: bold;
     font-size: 1rem;
     border-radius: 8px;
     text-align: center;
     
-    /* Para garantir que o botão ocupe a largura disponível do form */
     align-self: stretch; 
 }
 
 .btn-login:hover {
-    filter: brightness(0.9); /* Escurece levemente */
+    filter: brightness(0.9); 
 }
