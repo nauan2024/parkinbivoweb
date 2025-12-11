@@ -54,6 +54,5 @@ button:disabled { background-color: #ccc; cursor: not-allowed; }
 .sucesso { color: #155724; background-color: #d4edda; }
 .erro { color: #721c24; background-color: #f8d7da; }
 
-/* Animação suave ao trocar de tela */
 .fade-in { animation: fadeIn 0.5s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

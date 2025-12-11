@@ -50,8 +50,6 @@ export const Home = () => {
         </div>
         <nav className="sidebar-nav">
           <button className="nav-item active">🚗 Pátio Atual</button>
-          <button className="nav-item">📄 Relatórios</button>
-          <button className="nav-item">⚙️ Configurações</button>
         </nav>
         <div className="sidebar-footer">
           <button onClick={handleLogout} className="btn-logout">

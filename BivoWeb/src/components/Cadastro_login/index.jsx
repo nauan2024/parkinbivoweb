@@ -1,63 +1,54 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import './style.css';
 
-export default function Cadastro() {
-  // --- SUA API OFICIAL (MOCKAPI) ---
+export const Cadastro_login = () => {
+  const navigate = useNavigate(); 
   const API_URL = "https://68ec4378eff9ad3b14019f4d.mockapi.io/Usuarios";
 
-  // Estados de navegação e usuário
-  const [telaAtual, setTelaAtual] = useState('login'); // 'login', 'cadastro' ou 'home'
-  const [usuarioLogado, setUsuarioLogado] = useState(null);
-  
-  // Estados de feedback (mensagens e carregamento)
+  const [isLoginView, setIsLoginView] = useState(true); 
+
   const [mensagem, setMensagem] = useState({ texto: '', tipo: '' });
   const [carregando, setCarregando] = useState(false);
 
-  // Estados dos formulários
   const [formLogin, setFormLogin] = useState({ email: '', senha: '' });
   const [formCadastro, setFormCadastro] = useState({ nome: '', email: '', senha: '' });
 
-  // --- FUNÇÃO 1: FAZER LOGIN (GET) ---
   const handleLogin = async (e) => {
     e.preventDefault();
-    setMensagem({}); 
+    setMensagem({});
     setCarregando(true);
 
     try {
-      // Busca na API usuarios com esse email
       const response = await fetch(`${API_URL}?Email=${formLogin.email}`);
       const dados = await response.json();
-
-      // O MockAPI retorna uma lista (array). Pegamos o primeiro item se existir.
+      
       const usuarioEncontrado = dados[0];
 
       if (usuarioEncontrado) {
-        // Valida se a senha bate
         if (usuarioEncontrado.Senha === formLogin.senha) {
-          setMensagem({ texto: 'Login realizado com sucesso!', tipo: 'sucesso' });
-          setUsuarioLogado(usuarioEncontrado);
+          setMensagem({ texto: 'Login realizado! Entrando...', tipo: 'sucesso' });
           
-          // Aguarda 1 segundo e entra na Home
+          localStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado));
+
           setTimeout(() => {
-            setTelaAtual('home');
-            setMensagem({});
+            navigate('/home'); 
           }, 1000);
+
         } else {
           setMensagem({ texto: 'Senha incorreta.', tipo: 'erro' });
         }
       } else {
         setMensagem({ texto: 'E-mail não encontrado.', tipo: 'erro' });
       }
-
     } catch (error) {
-      console.error("Erro login:", error);
-      setMensagem({ texto: 'Erro de conexão com a API.', tipo: 'erro' });
+      console.error(error);
+      setMensagem({ texto: 'Erro ao conectar com a API.', tipo: 'erro' });
     } finally {
       setCarregando(false);
     }
   };
 
-  // --- FUNÇÃO 2: CADASTRAR NOVO (POST) ---
   const handleCadastro = async (e) => {
     e.preventDefault();
 
@@ -67,68 +58,59 @@ export default function Cadastro() {
     }
 
     setCarregando(true);
-    setMensagem({ texto: 'Verificando disponibilidade...', tipo: '' });
+    setMensagem({ texto: 'Validando dados...', tipo: '' });
 
     try {
-      // Passo A: Verifica se o email já existe
       const checkRes = await fetch(`${API_URL}?Email=${formCadastro.email}`);
       const checkData = await checkRes.json();
 
-      if (checkData.length > 0) {
-        setMensagem({ texto: 'Este e-mail já possui conta.', tipo: 'erro' });
-        setCarregando(false);
-        return;
-      }
+      console.log("Resposta da API ao verificar email:", checkData);
 
-      // Passo B: Cria o objeto do usuário
-      const novoUsuario = {
-        Nome: formCadastro.nome,
-        Email: formCadastro.email,
-        Senha: formCadastro.senha
-      };
+     
+      if (Array.isArray(checkData)) {
+        
+        const usuarioJaExiste = checkData.find(user => user.Email === formCadastro.email);
 
-      // Passo C: Envia para a API (POST)
+        if (usuarioJaExiste) {
+          setMensagem({ texto: 'Este e-mail já possui conta.', tipo: 'erro' });
+          setCarregando(false);
+          return;
+        }
+      } 
+
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(novoUsuario)
+        body: JSON.stringify({
+          Nome: formCadastro.nome,
+          Email: formCadastro.email,
+          Senha: formCadastro.senha
+        })
       });
 
       if (response.ok) {
-        setMensagem({ texto: 'Conta criada! Redirecionando para login...', tipo: 'sucesso' });
-        
-        // Limpa e volta para login após 2 segundos
+        setMensagem({ texto: 'Conta criada! Faça login.', tipo: 'sucesso' });
         setTimeout(() => {
           setFormCadastro({ nome: '', email: '', senha: '' });
-          setTelaAtual('login');
+          setIsLoginView(true);
           setMensagem({});
-        }, 2000);
+        }, 1500);
       } else {
-        setMensagem({ texto: 'Erro ao salvar na API.', tipo: 'erro' });
+        setMensagem({ texto: 'Erro ao salvar o cadastro.', tipo: 'erro' });
       }
 
     } catch (error) {
-      console.error("Erro cadastro:", error);
-      setMensagem({ texto: 'Erro de conexão.', tipo: 'erro' });
+      console.error("Erro Técnico:", error);
+      setMensagem({ texto: `Erro: ${error.message}`, tipo: 'erro' });
     } finally {
       setCarregando(false);
     }
   };
-
-  // Função para sair (Logout)
-  const handleLogout = () => {
-    setUsuarioLogado(null);
-    setFormLogin({ email: '', senha: '' });
-    setTelaAtual('login');
-  };
-
-  // --- O QUE APARECE NA TELA (JSX) ---
   return (
     <div className="cadastro-container">
       <div className="card">
         
-        {/* TELA DE LOGIN */}
-        {telaAtual === 'login' && (
+        {isLoginView ? (
           <div className="fade-in">
             <h2>Acessar Sistema</h2>
             <form onSubmit={handleLogin}>
@@ -147,17 +129,14 @@ export default function Cadastro() {
                 required 
               />
               <button type="submit" disabled={carregando}>
-                {carregando ? 'Carregando...' : 'Entrar'}
+                {carregando ? 'Entrando...' : 'Entrar'}
               </button>
             </form>
             <div className="toggle-link">
-              Não tem conta? <span onClick={() => { setTelaAtual('cadastro'); setMensagem({}); }}>Cadastre-se</span>
+              Não tem conta? <span onClick={() => { setIsLoginView(false); setMensagem({}); }}>Cadastre-se</span>
             </div>
           </div>
-        )}
-
-        {/* TELA DE CADASTRO */}
-        {telaAtual === 'cadastro' && (
+        ) : (
           <div className="fade-in">
             <h2>Novo Cadastro</h2>
             <form onSubmit={handleCadastro}>
@@ -187,25 +166,11 @@ export default function Cadastro() {
               </button>
             </form>
             <div className="toggle-link">
-              Já tem conta? <span onClick={() => { setTelaAtual('login'); setMensagem({}); }}>Voltar para Login</span>
+              Já tem conta? <span onClick={() => { setIsLoginView(true); setMensagem({}); }}>Voltar para Login</span>
             </div>
           </div>
         )}
 
-        {/* TELA HOME (ÁREA RESTRITA) */}
-        {telaAtual === 'home' && usuarioLogado && (
-          <div className="fade-in">
-            <h2>Bem-vindo(a)!</h2>
-            <div className="user-info">
-              <p>Olá, <strong>{usuarioLogado.Nome}</strong>.</p>
-              <p>Você está conectado à API MockAPI.</p>
-              <small>ID do Usuário: {usuarioLogado.id}</small>
-            </div>
-            <button className="btn-danger" onClick={handleLogout}>Sair do Sistema</button>
-          </div>
-        )}
-
-        {/* MENSAGENS DE AVISO */}
         {mensagem.texto && (
           <p className={`mensagem ${mensagem.tipo}`}>{mensagem.texto}</p>
         )}

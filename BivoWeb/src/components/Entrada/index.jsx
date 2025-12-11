@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { InputText } from "../../components/inputtextcomponent"; 
+import { InputText } from "../inputtextcomponent"; 
 import { api } from "../../services/api"; 
 import "./style.css";
 
@@ -12,9 +12,14 @@ export const Entrada = () => {
 
   const handleRegistrar = async (e) => {
     e.preventDefault();
+
+    if (!placa || !modelo) {
+      alert("Por favor, preencha a placa e o modelo.");
+      return;
+    }
+
     setLoading(true);
 
-    // O objeto que será enviado
     const novoCarro = {
       placa: placa.toUpperCase(),
       modelo: modelo,
@@ -24,12 +29,12 @@ export const Entrada = () => {
     };
 
     try {
-      // 2. Chamada simplificada via API
       await api.registrarEntrada(novoCarro);
       
       alert("Veículo registrado com sucesso!");
       navigate("/home");
     } catch (error) {
+      console.error(error); 
       alert("Erro ao registrar veículo.");
     } finally {
       setLoading(false);
@@ -46,7 +51,6 @@ export const Entrada = () => {
             placeholder="ABC-1234" 
             value={placa}
             onChange={(e) => setPlaca(e.target.value)}
-            maxLength={8}
           />
           <InputText 
             label="Modelo / Cor" 
